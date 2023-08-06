@@ -1,0 +1,22 @@
+#filterItem.form-control{
+    border: none;
+    border-bottom: 1px solid #ced4da;
+    border-radius: 0;
+    background-color: transparent;
+}
+.form-control:focus {
+    box-shadow:none;
+}
+.item, .clear{
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+.item .close {
+    margin-top: -7px;
+}
+.item p{
+    cursor: pointer;
+}
+#updateBtn i{
+    font-size: 13px;
+}
