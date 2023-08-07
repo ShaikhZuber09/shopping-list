@@ -87,7 +87,7 @@ updateBtn.classList.add("d-none")
 
 const onDeleteItem=(eve)=>{
   let deleteId=eve.closest(".col-6").id
-  if (confirm("Are you sure")) {
+  if (confirm("Are you sure ??")) {
     shoppingListArray=shoppingListArray.filter(obj=> obj.itemId != deleteId)
     localStorage.setItem("shoppingListArray", JSON.stringify(shoppingListArray))
    document.getElementById(deleteId).remove()
@@ -112,7 +112,7 @@ templating(shoppingListArray.filter(obj=>obj.itemName.toLowerCase().includes(eve
 })
 
 clearAll.addEventListener("click",(eve)=>{
-  if(confirm("Are you really want to delete All")){
+  if(confirm("Are you really want to delete All ??")){
     shoppingListArray.length=0;
     localStorage.setItem("shoppingListArray", JSON.stringify(shoppingListArray))
     templating(shoppingListArray)
