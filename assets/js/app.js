@@ -22,7 +22,12 @@ const templating=(arr)=>{
     },"")
 }
 
-let shoppingListArray=[]
+let shoppingListArray=JSON.parse(localStorage.getItem("shoppingListArray")) || [];
+
+if(shoppingListArray.length){
+  templating(shoppingListArray)
+}
+
 
 function uuidv4() {
     return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
@@ -37,8 +42,13 @@ itemId:uuidv4(),
 itemName:shoppingInput.value
     }
     shoppingListArray.unshift(obj)
-    cl(shoppingListArray)
+    localStorage.setItem("shoppingListArray", JSON.stringify(shoppingListArray))
     templating(shoppingListArray)
+    Swal.fire({
+      icon: 'success',
+      text: `${shoppingInput.value} is added succsesfully!!!`,
+      timer:3000
+    })
     eve.target.reset()
 }
 
@@ -49,7 +59,7 @@ localStorage.setItem("editObj", JSON.stringify(editObj))
 shoppingInput.value=editObj.itemName;
 addBtn.classList.add("d-none");
 updateBtn.classList.remove("d-none")
-eve.closest(".col-6").style.opacity="0.4"
+document.getElementById(editId).style.opacity="0.4"
 }
 
 const onUpdateItem=(eve)=>{
@@ -57,9 +67,18 @@ const onUpdateItem=(eve)=>{
     for (let i = 0; i < shoppingListArray.length; i++) {
         if(shoppingListArray[i].itemId===updateObj.itemId){
           shoppingListArray[i].itemName=shoppingInput.value
+          break;
         }
     }
+    localStorage.setItem("shoppingListArray", JSON.stringify(shoppingListArray));
+    //document.querySelector(`#${updateObj.itemId}>.item>p`).innerHTML=shoppingInput.value;
+   // cl(document.querySelector(`#${updateObj.itemId}>.item>p`).innerHTML=shoppingInput.value)
     templating(shoppingListArray)
+    Swal.fire({
+      icon: 'success',
+      text: `Your item ${updateObj.itemName} is updated as ${shoppingInput.value}`,
+      timer:3000
+    })
     shoppingForm.reset()
     addBtn.classList.remove("d-none")
 updateBtn.classList.add("d-none")
@@ -70,7 +89,13 @@ const onDeleteItem=(eve)=>{
   let deleteId=eve.closest(".col-6").id
   if (confirm("Are you sure")) {
     shoppingListArray=shoppingListArray.filter(obj=> obj.itemId != deleteId)
-   templating(shoppingListArray)
+    localStorage.setItem("shoppingListArray", JSON.stringify(shoppingListArray))
+   document.getElementById(deleteId).remove()
+   Swal.fire({
+    icon: 'success',
+    text: `Your item successfully deleted !!`,
+    timer:3000
+  })
   } else {
     return false;
   }
@@ -89,8 +114,13 @@ templating(shoppingListArray.filter(obj=>obj.itemName.toLowerCase().includes(eve
 clearAll.addEventListener("click",(eve)=>{
   if(confirm("Are you really want to delete All")){
     shoppingListArray.length=0;
-    cl(shoppingListArray)
+    localStorage.setItem("shoppingListArray", JSON.stringify(shoppingListArray))
     templating(shoppingListArray)
+    Swal.fire({
+      icon: 'success',
+      text: `All item successfully deleted !!`,
+      timer:3000
+    })
   }else {
     return false;
   }
